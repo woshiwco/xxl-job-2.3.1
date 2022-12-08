@@ -2,12 +2,11 @@ package com.xxl.job.executor.service.synDataJobhandler;
 
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import com.xxl.job.executor.entity.User;
+import com.xxl.job.executor.entity.TUser;
 import com.xxl.job.executor.service.synDataJobhandler.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -30,24 +29,21 @@ public class MySynDataJob {
     public void demoJobHandler() throws Exception {
         try {
             String jobParam = XxlJobHelper.getJobParam();
-            // if (jobParam==null || jobParam.trim().length()==0) {
-            //     XxlJobHelper.log("param["+ jobParam +"] invalid.");
-            //
-            //     XxlJobHelper.handleFail();
-            //     return;
-            // }
-            XxlJobHelper.log("===============进入aSynDataJob,参数为：" + jobParam);
-            User u = userService.selectOneUser();
+            if (jobParam==null || jobParam.trim().length()==0) {
+                XxlJobHelper.log("param["+ jobParam +"] invalid.");
+
+                XxlJobHelper.handleFail();
+                return;
+            }
+            TUser u = userService.selectOneUser();
             XxlJobHelper.log("查询用户，用户为：" + u);
+            XxlJobHelper.handleSuccess("执行成功");
         } catch (Exception e) {
-            XxlJobHelper.log("===========执行失败:" + e.getMessage());
-            XxlJobHelper.handleFail(e.getMessage());
+            XxlJobHelper.handleFail("执行失败:" + e.getMessage());
             if (e instanceof InterruptedException) {
                 throw e;
             }
         }
-        XxlJobHelper.log("================执行结束，执行成功！");
-        XxlJobHelper.handleSuccess("执行成功");
     }
 
 
@@ -58,7 +54,7 @@ public class MySynDataJob {
      *      "method: get\n" +
      *      "data: content\n";
      */
-    @XxlJob("httpJobHandler")
+    @XxlJob("ahttpJobHandler")
     public void httpJobHandler() throws Exception {
 
         // param parse

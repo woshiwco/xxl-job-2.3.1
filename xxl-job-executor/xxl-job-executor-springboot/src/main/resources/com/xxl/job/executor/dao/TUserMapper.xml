@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.job.executor.dao.TUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.xxl.job.executor.entity.TUser">
+            <id property="user_id" column="user_id" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="bir" column="bir" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,username,password,
+        bir
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from my_test.t_user
+        where  user_id = #{user_id,jdbcType=INTEGER} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" databaseId="my_test">
+        delete from my_test.t_user
+        where  user_id = #{user_id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="user_id" keyProperty="user_id" parameterType="com.xxl.job.executor.entity.TUser" useGeneratedKeys="true" databaseId="my_test">
+        insert into t_user
+        ( user_id,username,password
+        ,bir)
+        values (#{user_id,jdbcType=INTEGER},#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}
+        ,#{bir,jdbcType=DATE})
+    </insert>
+    <insert id="insertSelective" keyColumn="user_id" keyProperty="user_id" parameterType="com.xxl.job.executor.entity.TUser" useGeneratedKeys="true" databaseId="my_test">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="user_id != null">user_id,</if>
+                <if test="username != null">username,</if>
+                <if test="password != null">password,</if>
+                <if test="bir != null">bir,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="user_id != null">#{user_id,jdbcType=INTEGER},</if>
+                <if test="username != null">#{username,jdbcType=VARCHAR},</if>
+                <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+                <if test="bir != null">#{bir,jdbcType=DATE},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xxl.job.executor.entity.TUser" databaseId="my_test">
+        update t_user
+        <set>
+                <if test="username != null">
+                    username = #{username,jdbcType=VARCHAR},
+                </if>
+                <if test="password != null">
+                    password = #{password,jdbcType=VARCHAR},
+                </if>
+                <if test="bir != null">
+                    bir = #{bir,jdbcType=DATE},
+                </if>
+        </set>
+        where   user_id = #{user_id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.xxl.job.executor.entity.TUser" databaseId="my_test">
+        update t_user
+        set 
+            username =  #{username,jdbcType=VARCHAR},
+            password =  #{password,jdbcType=VARCHAR},
+            bir =  #{bir,jdbcType=DATE}
+        where   user_id = #{user_id,jdbcType=INTEGER} 
+    </update>
+</mapper>
