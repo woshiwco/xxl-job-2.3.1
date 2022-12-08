@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.job.executor.dao.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.xxl.job.executor.entity.User">
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="bir" column="bir" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,bir
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from user
+        where 
+    </delete>
+    <insert id="insert">
+        insert into user
+        ( id,name,bir
+        )
+        values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{bir,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="bir != null">bir,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="bir != null">#{bir,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xxl.job.executor.entity.User">
+        update user
+        <set>
+                <if test="id != null">
+                    id = #{id,jdbcType=INTEGER},
+                </if>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="bir != null">
+                    bir = #{bir,jdbcType=TIMESTAMP},
+                </if>
+        </set>
+        where  
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.xxl.job.executor.entity.User">
+        update user
+        set 
+            id =  #{id,jdbcType=INTEGER},
+            name =  #{name,jdbcType=VARCHAR},
+            bir =  #{bir,jdbcType=TIMESTAMP}
+        where  
+    </update>
+</mapper>
